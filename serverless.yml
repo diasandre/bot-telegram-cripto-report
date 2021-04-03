@@ -1,4 +1,4 @@
-service: bot-telegram-cripto-report-test
+service: bot-telegram-cripto-report
 
 provider:
   name: aws
