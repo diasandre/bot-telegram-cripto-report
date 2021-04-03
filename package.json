@@ -1,0 +1,19 @@
+{
+  "name": "bot-telegram-cripto-report",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diasandre/bot-telegram-cripto-report.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diasandre/bot-telegram-cripto-report/issues"
+  },
+  "homepage": "https://github.com/diasandre/bot-telegram-cripto-report#readme"
+}

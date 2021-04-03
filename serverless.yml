@@ -1,0 +1,15 @@
+service: bot-telegram-cripto-report-test
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1
+
+functions:
+  criptoreport:
+    handler: handler.criptoreport
+    events:
+      - http:
+          path: report
+          method: get
+          cors: false
