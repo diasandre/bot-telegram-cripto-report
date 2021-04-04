@@ -4,47 +4,42 @@ const axios = require("axios");
 const { format } = require("date-fns");
 
 module.exports.criptoreport = async (event) => {
-  // const TOKEN_TELEGRAM = process.env.TOKEN_TELEGRAM;
+  const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
   const API_KEY = process.env.API_KEY;
 
   const criptos = ["BTC", "ETH", "BNB", "XVS", "XRP"].join(",");
 
   const date = new Date();
 
-  const formatedDate = format(date, "YYYY-MM-DDTHH:00:00Z");
+  const formatedDate = format(date, "yyyy-MM-dd'T'HH:00:00XXX");
 
   const API_BASE = `https://api.nomics.com/v1/currencies/sparkline?key=${API_KEY}&ids=${criptos}&start=${formatedDate}`;
 
-  axios
-    .get(API_BASE)
-    .then((data) => {
-      const response = data.map(
-        ({ currency, timestamps: [timestamp], prices: [price] }) => {
-          return `${currency} - USD ${price}}`;
-        }
-      );
+  const { data } = await axios.get(API_BASE);
 
-      return {
-        statusCode: 200,
-        body: JSON.stringify(
-          {
-            message: response.join(","),
-          },
-          null,
-          2
-        ),
-      };
+  const content = data
+    .map(({ currency, timestamps: [timestamp], prices: [price] }) => {
+      return `<b>${currency}</b> - USD ${price}`;
     })
-    .catch((error) => {
-      return {
-        statusCode: 500,
-        body: JSON.stringify(
-          {
-            message: error,
-          },
-          null,
-          2
-        ),
-      };
-    });
+    .join("\n");
+
+  const response = `<b>Relatório criptomoedas - ${format(
+    date,
+    "dd/MM/yyyy"
+  )}</b>\n \n${content}`;
+
+  const TELEGRAM_API_BASE = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
+
+  await axios.post(TELEGRAM_API_BASE, {
+    chat_id: "-474599700",
+    text: response,
+    parse_mode: "html",
+  });
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({
+      response,
+    }),
+  };
 };
