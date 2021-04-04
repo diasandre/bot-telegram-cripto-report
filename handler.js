@@ -1,7 +1,7 @@
 "use strict";
 
-import axios from "axios";
-import { format } from "date-fns";
+const axios = require("axios");
+const { format } = require("date-fns");
 
 module.exports.criptoreport = async (event) => {
   // const TOKEN_TELEGRAM = process.env.TOKEN_TELEGRAM;
