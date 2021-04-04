@@ -27,7 +27,7 @@ USD 56.018 -> -2.49% -> USD 54.621
 
 ### How to deploy to AWS Lambda via github actions:
 - go to settings -> secrets and add environment variables: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`.
-- push some code ou run github action `deploy to lambda`
+- push some code or run github action `deploy to lambda`
 
 ### Configure cloudwatch cron
 - go to [AWS CLOUDWATCH RULES](https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#rules:)
