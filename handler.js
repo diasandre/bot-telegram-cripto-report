@@ -2,6 +2,7 @@
 
 const axios = require("axios");
 const { format, subDays } = require("date-fns");
+const { format: formatTimeZone } = require("date-fns-tz");
 
 module.exports.criptoreport = async (event) => {
   const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
@@ -45,12 +46,19 @@ module.exports.criptoreport = async (event) => {
       const oneDayPercentageEmoji = oneDayPercentual >= 0 ? "📈" : "📉";
       const sevenDayPercentageEmoji = sevenDaysPercentual >= 0 ? "📈" : "📉";
 
-      return `<b>${currency}${warningEmoji}${greatProfitEmoji}</b>\n💰Price: $${actualPriceFixed}\n${oneDayPercentageEmoji}Price<i>(1d)</i>: $${oneDayPriceFixed} <b>(${oneDayPercentual}%)</b>\n${sevenDayPercentageEmoji}Price<i>(7d)</i>: $${sevenDaysPriceFixed} <b>(${sevenDaysPercentual}%)</b>`;
+      return [
+        `<b>${currency}${warningEmoji}${greatProfitEmoji}</b>`,
+        `💰Price: $${actualPriceFixed}`,
+        `${oneDayPercentageEmoji}Price<i>(1d)</i>: $${oneDayPriceFixed} <b>(${oneDayPercentual}%)</b>`,
+        `${sevenDayPercentageEmoji}Price<i>(7d)</i>: $${sevenDaysPriceFixed} <b>(${sevenDaysPercentual}%)</b>`,
+      ].join("\n");
     })
     .join("\n\n");
 
   const actualDateFormatted = format(actualDate, "dd/MM/yyyy");
-  const atualHour = format(actualDate, "HHaaa");
+  const atualHour = formatTimeZone(actualDate, "HHaaa", {
+    timeZone: "America/Sao_Paulo",
+  });
 
   const response = `<b>DAILY CRIPTOCURRENCY REPORT</b>\n${actualDateFormatted} - ${atualHour}\n\n${content}`;
 

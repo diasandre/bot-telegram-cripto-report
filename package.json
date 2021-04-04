@@ -18,6 +18,7 @@
   "homepage": "https://github.com/diasandre/bot-telegram-cripto-report#readme",
   "dependencies": {
     "axios": "^0.21.1",
-    "date-fns": "^2.19.0"
+    "date-fns": "^2.19.0",
+    "date-fns-tz": "^1.1.3"
   }
 }
