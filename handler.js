@@ -6,14 +6,14 @@ const { format } = require("date-fns");
 module.exports.criptoreport = async (event) => {
   const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
   const API_KEY = process.env.API_KEY;
-
-  const criptos = ["BTC", "ETH", "BNB", "XVS", "XRP"].join(",");
+  const CHAT_ID = process.env.CHAT_ID;
+  const CRIPTOS = process.env.CRIPTOS;
 
   const date = new Date();
 
   const formatedDate = format(date, "yyyy-MM-dd'T'HH:00:00XXX");
 
-  const API_BASE = `https://api.nomics.com/v1/currencies/sparkline?key=${API_KEY}&ids=${criptos}&start=${formatedDate}`;
+  const API_BASE = `https://api.nomics.com/v1/currencies/sparkline?key=${API_KEY}&ids=${CRIPTOS}&start=${formatedDate}`;
 
   const { data } = await axios.get(API_BASE);
 
@@ -31,7 +31,7 @@ module.exports.criptoreport = async (event) => {
   const TELEGRAM_API_BASE = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
 
   await axios.post(TELEGRAM_API_BASE, {
-    chat_id: "-474599700",
+    chat_id: CHAT_ID,
     text: response,
     parse_mode: "html",
   });
