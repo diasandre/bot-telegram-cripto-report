@@ -2,7 +2,7 @@
 
 const axios = require("axios");
 const { format, subDays } = require("date-fns");
-const { format: formatTimeZone } = require("date-fns-tz");
+const { format: formatTimeZone, utcToZonedTime } = require("date-fns-tz");
 
 module.exports.criptoreport = async (event) => {
   const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
@@ -55,10 +55,16 @@ module.exports.criptoreport = async (event) => {
     })
     .join("\n\n");
 
+  const timeZone = "America/Sao_Paulo";
+
   const actualDateFormatted = format(actualDate, "dd/MM/yyyy");
-  const atualHour = formatTimeZone(actualDate, "HHaaa", {
-    timeZone: "America/Sao_Paulo",
-  });
+  const atualHour = formatTimeZone(
+    utcToZonedTime(actualDate, timeZone),
+    "HHaaa",
+    {
+      timeZone,
+    }
+  );
 
   const response = `<b>DAILY CRIPTOCURRENCY REPORT</b>\n${actualDateFormatted} - ${atualHour}\n\n${content}`;
 

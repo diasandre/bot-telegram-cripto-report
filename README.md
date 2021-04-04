@@ -5,19 +5,33 @@
 Telegram bot that **reports cryptocurrency prices everyday** using `serveless framework` and `AWS LAMBDA`
 
 ```
-RELATÓRIO CRIPTOAMIGOS
-28/03/2021 -> 04/04/2021
+DAILY CRIPTOCURRENCY REPORT
+04/04/2021 - 15pm
 
-BNB
-USD 274.213 -> 23.58% -> USD 338.860
+BNB 🤑
+💰Price: $352.97
+📈Price(1d): $325.64 (8.39%)
+📈Price(7d): $274.21 (28.72%)
+
 BTC
-USD 57628.674 -> 0.85% -> USD 58116.037
-ETH
-USD 1815.757 -> 12.60% -> USD 2044.619
-XRP
-USD 0.567 -> 6.45% -> USD 0.604
+💰Price: $58489.04
+📉Price(1d): $59185.64 (-0.52%)
+📈Price(7d): $57628.67 (1.49%)
+
+ETH 🤑
+💰Price: $2071.78
+📈Price(1d): $2048.22 (1.15%)
+📈Price(7d): $1815.76 (14.10%)
+
+XRP 🚨
+💰Price: $0.62
+📉Price(1d): $0.80 (-15.53%)
+📈Price(7d): $0.57 (9.21%)
+
 XVS
-USD 56.018 -> -2.49% -> USD 54.621
+💰Price: $57.96
+📈Price(1d): $53.20 (8.94%)
+📈Price(7d): $56.02 (3.46%)
 ```
 
 ### How to deploy to AWS Lambda locally:
