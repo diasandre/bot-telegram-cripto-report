@@ -21,28 +21,38 @@ module.exports.criptoreport = async (event) => {
     .map(({ currency, prices }) => {
       const [sevenDaysPrice] = prices;
       const actualPrice = prices[prices.length - 1];
+      const oneDayPrice = prices[prices.length - 2];
 
-      const percentual = (
+      const sevenDaysPercentual = (
         ((actualPrice - sevenDaysPrice) / sevenDaysPrice) *
         100
       ).toFixed(2);
 
-      const sevenDaysPriceFixed = Number(sevenDaysPrice).toFixed(3);
-      const actualPriceFixed = Number(actualPrice).toFixed(3);
+      const oneDayPercentual = (
+        ((actualPrice - oneDayPrice) / oneDayPrice) *
+        100
+      ).toFixed(2);
 
-      const hasWarning = percentual < -10;
+      const sevenDaysPriceFixed = Number(sevenDaysPrice).toFixed(2);
+      const oneDayPriceFixed = Number(oneDayPrice).toFixed(2);
+      const actualPriceFixed = Number(actualPrice).toFixed(2);
 
-      const warningEmoji = hasWarning ? "[WARNING]" : "";
+      const warningEmoji =
+        sevenDaysPercentual <= -10 || oneDayPercentual <= -10 ? " 🚨" : "";
+      const greatProfitEmoji =
+        sevenDaysPercentual >= 10 || oneDayPercentual >= 10 ? " 🤑" : "";
 
-      return `<b>${currency}${warningEmoji}</b>\nUSD ${sevenDaysPriceFixed} -> ${percentual}% -> USD ${actualPriceFixed}`;
+      const oneDayPercentageEmoji = oneDayPercentual >= 0 ? "📈" : "📉";
+      const sevenDayPercentageEmoji = sevenDaysPercentual >= 0 ? "📈" : "📉";
+
+      return `<b>${currency}${warningEmoji}${greatProfitEmoji}</b>\n💰Price: $${actualPriceFixed}\n${oneDayPercentageEmoji}Price<i>(1d)</i>: $${oneDayPriceFixed} <b>(${oneDayPercentual}%)</b>\n${sevenDayPercentageEmoji}Price<i>(7d)</i>: $${sevenDaysPriceFixed} <b>(${sevenDaysPercentual}%)</b>`;
     })
-    .join("\n");
+    .join("\n\n");
 
-  const fromDateFormated = format(sevenDaysDate, "dd/MM/yyyy");
+  const actualDateFormatted = format(actualDate, "dd/MM/yyyy");
+  const atualHour = format(actualDate, "HHaaa");
 
-  const toDateFormated = format(actualDate, "dd/MM/yyyy");
-
-  const response = `<b>RELATÓRIO CRIPTOAMIGOS</b>\n<b>${fromDateFormated} -> ${toDateFormated}</b>\n \n${content}`;
+  const response = `<b>DAILY CRIPTOCURRENCY REPORT</b>\n${actualDateFormatted} - ${atualHour}\n\n${content}`;
 
   const TELEGRAM_API_BASE = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
 
